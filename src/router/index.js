@@ -1,6 +1,9 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+// import store from '@/store/index.js';
 
 Vue.use(VueRouter);
 
@@ -11,12 +14,17 @@ const routes = [
     component: Home,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/auth',
+    name: 'auth',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Auth.vue'),
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Chat.vue'),
+    meta: {
+      needAuth: true,
+    },
   },
 ];
 
@@ -25,5 +33,18 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(route => route.meta.needAuth)) {
+//     const test = store.getters.haveAuth;
+//     console.log(test);
+//     if (store.getters.haveAuth) {
+//       next();
+//     } else {
+//       next('/auth');
+//     }
+//   }
+//   next();
+// });
 
 export default router;
