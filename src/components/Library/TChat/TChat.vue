@@ -1,7 +1,7 @@
 <template>
   <div class="t-chat">
 
-    <TChatBody>
+    <TChatBody ref="chat-body">
       <TChatItem
         v-for="(item, index) in messages"
         :key="index"
@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       text: '123',
+      unread: null,
     };
   },
   methods: {
@@ -39,6 +40,23 @@ export default {
     ...mapState({
       messages: state => state.Connection.messages,
     }),
+  },
+  mounted() {
+    this.$store.subscribe((mutation) => {
+      console.log(this.$children[0]);
+      console.log(mutation);
+      if (mutation.type === 'MUTATE_MESSAGES') {
+        const chatBody = this.$children[0].$el;
+        const space = chatBody.scrollHeight - chatBody.scrollTop - chatBody.offsetHeight;
+        this.$nextTick(() => {
+          if (space < 350) {
+            chatBody.scrollTop = chatBody.scrollHeight;
+          } else {
+            // this.unread;
+          }
+        });
+      }
+    });
   },
 };
 

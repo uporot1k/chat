@@ -36,10 +36,15 @@ export default {
 
       commit('SET_WS', ws);
     },
-    sendWsMessage({ state, commit }, message) {
+    sendWsMessage({ rootState, state, commit }, text) {
       const { ws } = state;
-
-      ws.send('Hello server');
+      const message = {
+        text,
+        created: new Date().toISOString(),
+        name: rootState.User.login,
+      };
+      console.log(message.created);
+      ws.send(JSON.stringify(message));
     },
     onWsMessage({ commit }, event) {
       const message = JSON.parse(event.data);
