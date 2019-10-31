@@ -3,7 +3,7 @@
     <div class="t-chat-item__name">{{message.name}}</div>
     <div class="t-chat-item__text" v-text="message.text"></div>
     <div class="t-chat-item__created">
-      {{message.created}}
+      {{message.created.split('.')[0].split('T').join(' ')}}
     </div>
   </div>
 </template>
